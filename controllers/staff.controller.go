@@ -107,7 +107,6 @@ func (h StaffController) Login (c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	log.Println(staff.UserId, staff.PhoneNumber, staff.Name, staff.Password)
 
 	if !hash.CheckPassword(request.Password, staff.Password) {
 		c.JSON(400, gin.H{"error": "Invalid password."})
