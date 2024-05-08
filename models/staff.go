@@ -5,7 +5,7 @@ type Staff struct {
 	Name        string `json:"name"`
 	PhoneNumber string `json:"phoneNumber"`
 	Password    string `json:"password"`
-	CreatedAt   string `json:"created_at"`
-	UpdatedAt   string `json:"updated_at"`
-	DeletedAt   string `json:"deleted_at"`
+	CreatedAt   string `json:"createdAt"`
+	UpdatedAt   string `json:"updatedAt"`
+	DeletedAt   string `json:"deletedAt"`
 }

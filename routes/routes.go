@@ -15,6 +15,7 @@ func Init() *gin.Engine {
 		staff := v1.Group("/staff")
 		{
 			staff.POST("/register", staffController.Register)
+			staff.POST("/login", staffController.Login)
 		}
 	}
 

@@ -12,6 +12,15 @@ func ValidateRegisterRequest(request *types.RegisterRequest) map[string]string {
 	return errList
 }
 
+func ValidateLoginRequest(request *types.LoginRequest) map[string]string {
+	errList := make(map[string]string)
+
+	validatePhoneNumber(request.PhoneNumber, errList)
+	validatePassword(request.Password, errList)
+
+	return errList
+}
+
 func validatePhoneNumber(phone string, errList map[string]string) {
 	if phone == "" {
 		errList["phoneNumber"] = "Phone number can't be null."
