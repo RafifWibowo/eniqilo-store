@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS "product" (
     "stock" int NOT NULL,
     "location" varchar(200) NOT NULL,
     "isAvailable" bool NOT NULL,
-    "created_at" timestamp NOT NULL DEFAULT (now()),
-    "updated_at" timestamp NOT NULL DEFAULT (now()),
-    "deleted_at" timestamp
+    "createdAt" timestamp NOT NULL DEFAULT (now()),
+    "updatedAt" timestamp NOT NULL DEFAULT (now()),
+    "deletedAt" timestamp
 );

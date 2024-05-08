@@ -37,7 +37,7 @@ func (h StaffController) Register(c *gin.Context) {
 	}
 
 	var count int
-	err := db.QueryRow("SELECT COUNT(*) FROM public.staff WHERE phone = $1", request.PhoneNumber).Scan(&count)
+	err := db.QueryRow("SELECT COUNT(*) FROM public.staff WHERE \"phoneNumber\" = $1", request.PhoneNumber).Scan(&count)
 	if err != nil {
 		log.Fatal(err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -62,7 +62,7 @@ func (h StaffController) Register(c *gin.Context) {
 	request.Password = string(hashedPass)
 
 	var staff models.Staff
-	if err := db.QueryRow("INSERT INTO public.staff (phone, name, password) VALUES ($1, $2, $3) RETURNING id, phone, name", request.PhoneNumber, request.Name, request.Password).Scan(&staff.UserId, &staff.PhoneNumber, &staff.Name); err != nil {
+	if err := db.QueryRow("INSERT INTO public.staff (\"phoneNumber\", name, password) VALUES ($1, $2, $3) RETURNING id, \"phoneNumber\", name", request.PhoneNumber, request.Name, request.Password).Scan(&staff.UserId, &staff.PhoneNumber, &staff.Name); err != nil {
 		log.Fatal(err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 	}
