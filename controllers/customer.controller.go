@@ -52,7 +52,7 @@ func (h CustomerController) CustomerRegister(c *gin.Context) {
 	}
 
 	var customer models.Customer
-	if err := db.QueryRow("INSERT INTO public.customer (\"phoneNumber\", name) VALUES ($1, $2) RETURNING id, \"phoneNumber\", name", request.PhoneNumber, request.Name).Scan(&customer.UserId, &customer.PhoneNumber, &customer.Name); err != nil {
+	if err := db.QueryRow("INSERT INTO public.customer (\"phoneNumber\", name, \"createdAt\", \"updatedAt\") VALUES ($1, $2, NOW(), NOW()) RETURNING id, \"phoneNumber\", name", request.PhoneNumber, request.Name).Scan(&customer.UserId, &customer.PhoneNumber, &customer.Name); err != nil {
 		log.Fatal(err)
 		c.JSON(500, gin.H{"error": err.Error()})
 	}

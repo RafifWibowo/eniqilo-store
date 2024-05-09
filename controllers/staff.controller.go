@@ -55,7 +55,7 @@ func (h StaffController) Register(c *gin.Context) {
 	request.Password = hashedPass
 
 	var staff models.Staff
-	if err := db.QueryRow("INSERT INTO public.staff (\"phoneNumber\", name, password) VALUES ($1, $2, $3) RETURNING id, \"phoneNumber\", name", request.PhoneNumber, request.Name, request.Password).Scan(&staff.UserId, &staff.PhoneNumber, &staff.Name); err != nil {
+	if err := db.QueryRow("INSERT INTO public.staff (\"phoneNumber\", name, password, \"createdAt\", \"updatedAt\") VALUES ($1, $2, $3, NOW(), NOW()) RETURNING id, \"phoneNumber\", name", request.PhoneNumber, request.Name, request.Password).Scan(&staff.UserId, &staff.PhoneNumber, &staff.Name); err != nil {
 		log.Fatal(err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 	}

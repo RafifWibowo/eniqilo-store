@@ -32,7 +32,7 @@ func (h ProductController) CreateProduct(c *gin.Context) {
 	}
 
 	var product models.Product
-	if err := db.QueryRow("INSERT INTO public.product (name, sku, category, \"imageUrl\", notes, price, stock, location, \"isAvailable\") VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id, \"createdAt\"", request.Name, request.SKU, request.Category, request.ImageUrl, request.Notes, request.Price, request.Stock, request.Location, request.IsAvailable).Scan(&product.UserId, &product.CreatedAt); err != nil {
+	if err := db.QueryRow("INSERT INTO public.product (name, sku, category, \"imageUrl\", notes, price, stock, location, \"isAvailable\", \"createdAt\", \"updatedAt\") VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, NOW(), NOW()) RETURNING id, \"createdAt\"", request.Name, request.SKU, request.Category, request.ImageUrl, request.Notes, request.Price, request.Stock, request.Location, request.IsAvailable).Scan(&product.UserId, &product.CreatedAt); err != nil {
 		log.Fatal(err)
 		c.JSON(500, gin.H{"error": err.Error()})
 		return
@@ -86,7 +86,7 @@ func (h ProductController) UpdateProduct(c *gin.Context){
 		c.JSON(404, gin.H{"message": "Product not found"})
 	}
 
-	_, err = db.Exec("UPDATE public.product SET name = $1, sku = $2, category = $3, \"imageUrl\" = $4, notes = $5, price = $6, stock = $7, location = $8, \"isAvailable\" = $9 WHERE id = $10", request.Name, request.SKU, request.Category, request.ImageUrl, request.Notes, request.Price, request.Stock, request.Location, request.IsAvailable, productId)
+	_, err = db.Exec("UPDATE public.product SET name = $1, sku = $2, category = $3, \"imageUrl\" = $4, notes = $5, price = $6, stock = $7, location = $8, \"isAvailable\" = $9, \"updatedAt\" = NOW() WHERE id = $10", request.Name, request.SKU, request.Category, request.ImageUrl, request.Notes, request.Price, request.Stock, request.Location, request.IsAvailable, productId)
 	if err != nil {
 		log.Fatal(err)
 		c.JSON(500, gin.H{"error": err.Error()})
@@ -113,7 +113,7 @@ func (h ProductController) SoftDeleteProduct(c *gin.Context) {
 		c.JSON(404, gin.H{"message": "Product not found"})
 	}
 
-	_, err = db.Exec("UPDATE public.product SET \"deletedAt\" = NOW() WHERE id = $1", productId)
+	_, err = db.Exec("UPDATE public.product SET \"updatedAt\" = NOW(), \"deletedAt\" = NOW() WHERE id = $1", productId)
 	if err != nil {
 		log.Fatal(err)
 		c.JSON(500, gin.H{"error": err.Error()})
