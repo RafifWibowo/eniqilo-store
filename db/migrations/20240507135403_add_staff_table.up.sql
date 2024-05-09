@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS "staff" (
     "name" varchar(50) NOT NULL,
     "phoneNumber" varchar(20) UNIQUE NOT NULL,
     "password" varchar(255) NOT NULL,
-    "createdAt" timestamp NOT NULL DEFAULT (now()),
-    "updatedAt" timestamp NOT NULL DEFAULT (now()),
+    "createdAt" timestamp NOT NULL,
+    "updatedAt" timestamp NOT NULL,
     "deletedAt" timestamp
 );
