@@ -9,6 +9,7 @@ import (
 
 func Init() *gin.Engine {
 	staffController := new(controllers.StaffController)
+	productController := new(controllers.ProductController)
 	customerController := new(controllers.CustomerController)
 
 	router := gin.New()
@@ -20,6 +21,12 @@ func Init() *gin.Engine {
 			staff.POST("/login", staffController.Login)
 		}
 		v1.Use(middleware.AuthMiddleware)
+		product := v1.Group("/product")
+		{
+			product.POST("/", productController.CreateProduct)
+			product.PUT("/:productId", productController.UpdateProduct)
+			product.DELETE("/:productId", productController.SoftDeleteProduct)
+		}
 		customer := v1.Group("/customer")
 		{
 			customer.POST("/register", customerController.CustomerRegister)

@@ -2,6 +2,8 @@ package helper
 
 import (
 	"database/sql"
+	"log"
+	"time"
 )
 
 func CheckPhoneExist(db *sql.DB, tableName string, phoneNumber string) (bool, error) {
@@ -37,4 +39,13 @@ func ValidateName(name string, errList map[string]string) {
 		errList["name"] = "Name must be between 5 and 50 characters in length."
 		return
 	}
+}
+
+func ConvertToISO860(str string) (string, error){
+	t, err := time.Parse(time.RFC3339, str)
+	if err != nil {
+		log.Fatal(err)
+		return "", err
+	}
+	return t.Format("2006-01-02T15:04:05Z07:00"), nil
 }
